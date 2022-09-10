@@ -1,10 +1,9 @@
-const token = localStorage.getItem('token');
-
 class Api {
     constructor (options){
         this._baseUrl = options.baseUrl;
         this._headers = options.headers;
-    } 
+    }
+	 
      
     handleResponse (res)  {
         if (res.ok) {
@@ -12,6 +11,8 @@ class Api {
           }
         return Promise.reject(res.status);
     }
+
+
 
     getProfileInfo () {
         return fetch (`${this._baseUrl}/users/me`, { 
@@ -89,13 +90,24 @@ class Api {
             this.handleResponse (res)
         );
     }
-}
+
+	 setHeaders (token) {
+		this._headers ={
+			authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json'
+		}
+	 }
+
+
+  }
+
 
 const api = new Api ({
     baseUrl: 'https://backend.nomorepartiesxyz.ru',
     headers : {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+		'Accept': 'application/json',
+        'Content-Type': 'application/json',
+		   'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
 });
 
